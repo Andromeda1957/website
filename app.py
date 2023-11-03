@@ -14,14 +14,10 @@ def index():
 
 @app.route('/stocks')
 def stocks():
-    return render_template('stocks.html')
-
-@app.route('/get_stock_data', methods=['POST'])
-def get_stock_data():
-    ticker = request.get_json()['ticker']
-    data = yf.Ticker(ticker).history(period='1y')
-    return jsonify({'currentPrice': data.iloc[-1].Close,
-                    'openPrice': data.iloc[-1].Open})
+    pypl_ticker = yf.Ticker('PYPL')
+    data = pypl_ticker.history()
+    paypal = '{:.2f}'.format(round(data['Close'].iloc[-1], 2))
+    return render_template('stocks.html', paypal=paypal)
 
 @app.route('/recommendations')
 def recommendations():
