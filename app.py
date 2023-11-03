@@ -1,5 +1,5 @@
-import yfinance as yf
 import tickers
+import price
 
 from flask import Flask, render_template, redirect, request, jsonify
 from tradingview_ta import TA_Handler, Exchange, Interval
@@ -14,10 +14,20 @@ def index():
 
 @app.route('/stocks')
 def stocks():
-    pypl_ticker = yf.Ticker('PYPL')
-    data = pypl_ticker.history()
-    paypal = '{:.2f}'.format(round(data['Close'].iloc[-1], 2))
-    return render_template('stocks.html', paypal=paypal)
+    pypl = price.get_stock_price('PYPL')
+    nvda = price.get_stock_price('NVDA')
+    dis = price.get_stock_price('dis')
+    ulta = price.get_stock_price('ulta')
+    vsco = price.get_stock_price('vsco')
+    tgt = price.get_stock_price('tgt')
+    dg = price.get_stock_price('dg')
+    cvs = price.get_stock_price('cvs')
+    rtx = price.get_stock_price('rtx')
+    ge = price.get_stock_price('ge')
+    
+    return render_template('stocks.html',pypl=pypl, nvda=nvda, dis=dis,
+                           ulta=ulta, vsco=vsco, tgt=tgt, dg=dg, cvs=cvs,
+                           rtx=rtx, ge=ge)
 
 @app.route('/recommendations')
 def recommendations():
