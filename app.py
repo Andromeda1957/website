@@ -1,7 +1,7 @@
 import yfinance as yf
 import tickers
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request, jsonify
 from tradingview_ta import TA_Handler, Exchange, Interval
 
 app = Flask(__name__)
@@ -15,6 +15,13 @@ def index():
 @app.route('/stocks')
 def stocks():
     return render_template('stocks.html')
+
+@app.route('/get_stock_data', methods=['POST'])
+def get_stock_data():
+    ticker = request.get_json()['ticker']
+    data = yf.Ticker(ticker).history(period='1y')
+    return jsonify({'currentPrice': data.iloc[-1].Close,
+                    'openPrice': data.iloc[-1].Open})
 
 @app.route('/recommendations')
 def recommendations():
