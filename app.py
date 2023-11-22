@@ -1,7 +1,7 @@
 import tickers
 import price
 
-from flask import Flask, render_template, redirect, request, jsonify
+from flask import *
 from tradingview_ta import TA_Handler, Exchange, Interval
 
 app = Flask(__name__)
