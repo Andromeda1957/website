@@ -1,6 +1,7 @@
 import tickers
 import price
 
+
 from flask import *
 from tradingview_ta import TA_Handler, Exchange, Interval
 
